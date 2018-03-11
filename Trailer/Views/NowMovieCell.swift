@@ -10,7 +10,9 @@ import UIKit
 
 class NowMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    fileprivate let sectionInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+    
+    var viewController: UIViewController?
     
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -29,7 +31,8 @@ class NowMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewD
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(NowCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(SeeMoreCell.self, forCellWithReuseIdentifier: "seeMoreCell")
         selectionStyle = .none
     }
     
@@ -55,20 +58,35 @@ class NowMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .blue
-        return cell
+        
+        
+        if indexPath.item == 4 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seeMoreCell", for: indexPath) as! SeeMoreCell
+            //cell.backgroundColor = .blue
+            
+            return cell
+        }else{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! NowCell
+            //cell.backgroundColor = .blue
+            
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = MovieListVC()
+        viewController?.navigationController?.pushViewController(vc, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: frame.height - 30, height: frame.height)
+        return CGSize(width: frame.height - 80, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView,

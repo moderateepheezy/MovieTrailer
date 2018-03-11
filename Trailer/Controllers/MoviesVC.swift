@@ -50,7 +50,7 @@ class MoviesVC: UIViewController {
         tableView.sectionHeaderHeight = 40
         tableView.register(NowMovieCell.self, forCellReuseIdentifier: "nowMovieCell")
         tableView.register(PopularMovieCell.self, forCellReuseIdentifier: "popularMovieCell")
-        tableView.tableHeaderView = MoviesHeaderView(frame: CGRect(x: 20, y: 0, width: view.frame.width - 20, height: 150))
+        tableView.tableHeaderView = MoviesHeaderView(frame: CGRect(x: 20, y: 0, width: view.frame.width - 20, height: 170))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,30 +94,32 @@ extension MoviesVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "nowMovieCell", for: indexPath) as! NowMovieCell
+            cell.viewController = self
             return cell
         }else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "popularMovieCell", for: indexPath) as! PopularMovieCell
+            cell.viewController = self
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 180
+            return 220
         }else{
-            return 340
+            return 450
         }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 60))
-        label.backgroundColor = .white
+        
         let title = ["Now", "Popular"]
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
+        headerView.backgroundColor = UIColor.white
+        let label = UILabel(frame: CGRect(x: 0, y: headerView.frame.height - 20, width: tableView.bounds.size.width, height: 15))
         label.text = title[section]
         label.font = UIFont(name: "Avenir", size: 14)
-        
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 60))
-        headerView.backgroundColor = UIColor.clear
         headerView.addSubview(label)
         return headerView
     }

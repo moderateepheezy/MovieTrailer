@@ -19,7 +19,7 @@ class MoviesHeaderView: UIView, UIScrollViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        collectionView = ScalingCarouselView(withFrame: CGRect(x: 20, y: 0, width: frame.width - 20, height: frame.height), andInset: 20)
+        collectionView = ScalingCarouselView(withFrame: CGRect(x: 0, y: 0, width: frame.width - 20, height: frame.height), andInset: 20)
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -80,7 +80,10 @@ class ImageCell: ScalingCarouselCell {
         imageView.elevate(elevation: 4.0, shadowColor: #colorLiteral(red: 0.8588235294, green: 0.1921568627, blue: 0.4039215686, alpha: 0.5488013699))
         imageView.layer.cornerRadius = 5
         
-        imageView.fill(mainView)
+        imageView.leftAnchor.align(to: leftAnchor)
+        imageView.rightAnchor.align(to: rightAnchor)
+        imageView.topAnchor.align(to: topAnchor)
+        imageView.bottomAnchor.align(to: bottomAnchor, offset: -20)
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -23,9 +23,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         layout.scrollDirection = .horizontal
         let swipingController = TrailerPageViewController(collectionViewLayout: layout)
         window?.rootViewController = swipingController
-        
+        printFonts()
         Thread.sleep(forTimeInterval: 1.0)
         return true
+    }
+    
+    func printFonts() {
+        let fontFamilyNames = UIFont.familyNames
+        for familyName in fontFamilyNames {
+            print("------------------------------")
+            print("Font Family Name = [\(familyName)]")
+            let names = UIFont.fontNames(forFamilyName: familyName)
+            print("Font Names = [\(names)]")
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

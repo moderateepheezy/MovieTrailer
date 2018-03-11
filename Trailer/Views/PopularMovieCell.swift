@@ -10,7 +10,9 @@ import UIKit
 
 class PopularMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    fileprivate let sectionInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+    
+    var viewController: UIViewController?
     
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -29,7 +31,8 @@ class PopularMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(NowCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(SeeMoreCell.self, forCellWithReuseIdentifier: "seeMoreCell")
         selectionStyle = .none
     }
     
@@ -59,9 +62,19 @@ class PopularMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .green
-        return cell
+        
+        if indexPath.item == 9 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seeMoreCell", for: indexPath) as! SeeMoreCell
+            return cell
+        }else{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! NowCell
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = MovieListVC()
+        viewController?.navigationController?.pushViewController(vc, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -72,13 +85,17 @@ class PopularMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         let availableWidth = collectionView.frame.width - paddingSpace
         let widthPerItem = availableWidth / 2
         
-        return CGSize(width: widthPerItem - 20, height: (collectionView.frame.height / 2) - 5)
+        return CGSize(width: widthPerItem - 20, height: 220)
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.right
     }
     
 }
